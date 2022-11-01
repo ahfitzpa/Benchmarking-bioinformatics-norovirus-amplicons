@@ -6,4 +6,4 @@ Pipelines compared include DADA2, Deblur, USEARCH-UNOISE3, VSEARCH and FROGS.
 
 Classifiers compared include RDP, BLASTn, IDTAXA, QIIME2 naive Bayes and sintax. 
 
-Associated datasets and input files have been deposited at zenodo at
+Associated datasets and input files have been deposited at zenodo at https://zenodo.org/record/7271067#.Y2EeeXbP3IU
