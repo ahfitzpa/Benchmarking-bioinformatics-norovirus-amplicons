@@ -1,4 +1,4 @@
-# Benchmarking-bioinformatic-tools-for-amplicon-based-sequencing-of-norovirus
+# Benchmarking bioinformatic tools for amplicon based sequencing of norovirus
 
 This repository contains the final version of scripts used to prepare data for simulation, simulation scripts, alongside the prepared pipelines and classifier scripts used to process the simulated sequencing data for the publication on benchmarking of bioinformatic tools for amplicon based sequencing of norovirus. 
 
