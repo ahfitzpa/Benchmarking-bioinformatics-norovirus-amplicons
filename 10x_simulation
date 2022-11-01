@@ -1,0 +1,50 @@
+###########################################################################################################################################################################
+# create folder for each test norovirus subset
+for i in input_files/test_norovirus.fasta.split/*.fasta; do
+fbname=$(basename "$i" .fasta)
+echo "$fbname"
+mkdir "${fbname}"
+cp $i "${fbname}"
+done
+
+###########################################################################################################################################################################
+echo "1. Creating amplicons from database"
+for i in test_norovirus.part_001 test_norovirus.part_002 test_norovirus.part_003 test_norovirus.part_004 test_norovirus.part_005 test_norovirus.part_006 test_norovirus.part_007 test_norovirus.part_008 test_norovirus.part_009 test_norovirus.part_010; do
+(cd $i && sh ../capsid_cut.sh)
+done
+echo "Amplicons created"
+
+###########################################################################################################################################################################
+echo "2. Prepare data for simulation, generate input files"
+for i in test_norovirus.part_001 test_norovirus.part_002 test_norovirus.part_003 test_norovirus.part_004 test_norovirus.part_005 test_norovirus.part_006 test_norovirus.part_007 test_norovirus.part_008 test_norovirus.part_009 test_norovirus.part_010; do
+(cd $i && sh ../simulated_sequencing_sample.sh)
+done
+echo "Ready for simulation"
+
+###########################################################################################################################################################################
+echo "3. InSilicoSeq in progress"
+for i in test_norovirus.part_001 test_norovirus.part_002 test_norovirus.part_003 test_norovirus.part_004 test_norovirus.part_005 test_norovirus.part_006 test_norovirus.part_007 test_norovirus.part_008 test_norovirus.part_009 test_norovirus.part_010; do
+(cd $i && sh ../insilicoseq.sh)
+done
+echo "InSilicoSeq completed"
+
+###########################################################################################################################################################################
+echo "4. Reformat data"
+for i in test_norovirus.part_001 test_norovirus.part_002 test_norovirus.part_003 test_norovirus.part_004 test_norovirus.part_005 test_norovirus.part_006 test_norovirus.part_007 test_norovirus.part_008 test_norovirus.part_009 test_norovirus.part_010; do
+(cd $i && sh ../format.sh)
+done
+echo "Data reformatted"
+
+###########################################################################################################################################################################
+echo "5. Trimming adapters and primers from sequences"
+for i in test_norovirus.part_001 test_norovirus.part_002 test_norovirus.part_003 test_norovirus.part_004 test_norovirus.part_005 test_norovirus.part_006 test_norovirus.part_007 test_norovirus.part_008 test_norovirus.part_009 test_norovirus.part_010; do
+(cd $i && sh ../cutadapt.sh)
+done
+echo "Cutadapt complete"
+
+###########################################################################################################################################################################
+echo "5. Perform all pipelines on trimmed data"
+for i in test_norovirus.part_001 test_norovirus.part_002 test_norovirus.part_003 test_norovirus.part_004 test_norovirus.part_005 test_norovirus.part_006 test_norovirus.part_007 test_norovirus.part_008 test_norovirus.part_009 test_norovirus.part_010; do
+(cd $i && sh ../pipelines/vsearch.sh && sh ../pipelines/usearch.sh && sh ../pipelines/FROGS.sh && sh ../pipelines/qiime2_deblur.sh && sh ../pipelines/qiime2_dada2.sh)
+done
+echo "Pipelines completed"
